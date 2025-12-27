@@ -1,16 +1,13 @@
-import { AiFillDashboard } from 'react-icons/ai';
+import { Outlet } from 'react-router';
+import Header from './components/Header';
 
 function App() {
   return (
     <>
-      <div>
-        <h1>
-          <AiFillDashboard /> Dashboard
-        </h1>
-        <button>
-          <AiFillDashboard />
-        </button>
-      </div>
+      <Header />
+      <main>
+        <Outlet />
+      </main>
     </>
   );
 }
