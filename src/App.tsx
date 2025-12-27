@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 
 function App() {
   const [count] = useState(0);
@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div>
-        <h1>Counter: {count}</h1>
+        <h1>Counter: {count + ''}</h1>
       </div>
     </>
   );
