@@ -1,3 +1,4 @@
+import { AiFillDashboard } from 'react-icons/ai';
 import { useState } from 'react';
 
 function App() {
@@ -6,7 +7,12 @@ function App() {
   return (
     <>
       <div>
-        <h1>Counter: {count + ''}</h1>
+        <h1>
+          <AiFillDashboard /> Dashboard
+        </h1>
+        <button>
+          <AiFillDashboard />
+        </button>
       </div>
     </>
   );
