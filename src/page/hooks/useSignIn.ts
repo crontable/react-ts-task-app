@@ -17,6 +17,7 @@ export default function useSignIn() {
   const navigate = useNavigate();
   const { login, isLoggedIn } = useAuth();
   const [apiError, setApiError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -56,16 +57,23 @@ export default function useSignIn() {
       console.log('Sign-in successful:', response);
     } catch (error) {
       console.error('Sign-in error:', error);
+      setIsModalOpen(true);
       setApiError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
     }
   };
 
   return {
-    register,
-    handleSubmit: handleSubmit(onSubmit),
-    errors,
-    isValid,
-    apiError,
+    action: {
+      register,
+      handleSubmit: handleSubmit(onSubmit)
+    },
+    state: {
+      errors,
+      isValid,
+      apiError,
+      isModalOpen,
+      setIsModalOpen
+    },
     validationRules: {
       email: {
         required: '이메일을 입력해주세요.',
