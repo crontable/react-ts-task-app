@@ -1,14 +1,15 @@
 import { Outlet } from 'react-router';
 import Header from './components/Header';
+import * as S from './App.styles';
 
 function App() {
   return (
-    <>
+    <S.AppContainer>
       <Header />
-      <main>
+      <S.ContentContainer>
         <Outlet />
-      </main>
-    </>
+      </S.ContentContainer>
+    </S.AppContainer>
   );
 }
 
