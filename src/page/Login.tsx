@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { API_END_POINTS, LOCALSTORAGE_KEYS, ROUTE_PATHS } from '../Constant';
+import { API_ENDPOINTS, LOCALSTORAGE_KEYS, ROUTE_PATHS } from '../Constant';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 
@@ -12,7 +12,7 @@ function LogIn() {
 
   const fetchUser = async (accessToken: string) => {
     try {
-      const response = await axios.get('/api/user', {
+      const response = await axios.get(API_ENDPOINTS.USER, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -31,7 +31,7 @@ function LogIn() {
 
     try {
       event.preventDefault();
-      const response = await axios.post(API_END_POINTS.SIGN_IN, {
+      const response = await axios.post(API_ENDPOINTS.SIGN_IN, {
         email: 'test@test.com',
         password: 'password123'
       });

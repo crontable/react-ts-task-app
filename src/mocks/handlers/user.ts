@@ -1,11 +1,11 @@
 import { http, HttpResponse } from 'msw';
-import { API_END_POINTS } from '../../Constant';
+import { API_BASE_URL, API_ENDPOINTS } from '../../Constant';
 import { mockUsers } from '../database';
 import { verifyToken } from '../utils/auth';
 
 export const userHandlers = [
   // 사용자 정보: JWT 검증 필요
-  http.get(API_END_POINTS.USER, async ({ request }) => {
+  http.get(`${API_BASE_URL}${API_ENDPOINTS.USER}`, async ({ request }) => {
     try {
       // JWT 검증
       const decoded = await verifyToken(request);

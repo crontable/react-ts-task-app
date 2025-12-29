@@ -1,10 +1,11 @@
 export const API_BASE_URL = '/api';
 
-export const API_END_POINTS = {
-  DASHBOARD: `${API_BASE_URL}/dashboard`,
-  SIGN_IN: `${API_BASE_URL}/sign-in`,
-  TASK: `${API_BASE_URL}/task`,
-  USER: `${API_BASE_URL}/user`
+// API 엔드포인트 (상대 경로만, BASE_URL은 제외)
+export const API_ENDPOINTS = {
+  DASHBOARD: '/dashboard',
+  SIGN_IN: '/sign-in',
+  TASK: '/task',
+  USER: '/user'
 };
 
 export const ROUTE_PATHS = {
