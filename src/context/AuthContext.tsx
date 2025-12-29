@@ -2,15 +2,11 @@
 
 import { createContext, useContext, useState } from 'react';
 import { LOCALSTORAGE_KEYS } from '../Constant';
-
-interface User {
-  name: string;
-  memo?: string;
-}
+import type { IUser } from '../Types';
 
 interface AuthContextType {
-  user: User | null;
-  login: (user: User, tokens: { accessToken: string; refreshToken: string }) => void;
+  user: IUser | null;
+  login: (user: IUser, tokens: { accessToken: string; refreshToken: string }) => void;
   logout: () => void;
   isLoggedIn: boolean;
 }
@@ -18,10 +14,10 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>(null!);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
   const isLoggedIn = !!user;
 
-  const login = (user: User, tokens: { accessToken: string; refreshToken: string }) => {
+  const login = (user: IUser, tokens: { accessToken: string; refreshToken: string }) => {
     setUser(user);
     localStorage.setItem(LOCALSTORAGE_KEYS.ACCESS_TOKEN, tokens.accessToken);
     localStorage.setItem(LOCALSTORAGE_KEYS.REFRESH_TOKEN, tokens.refreshToken);

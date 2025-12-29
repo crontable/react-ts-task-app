@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import axios from 'axios';
-import { API_ENDPOINTS, LOCALSTORAGE_KEYS, ROUTE_PATHS } from '../Constant';
+import { LOCALSTORAGE_KEYS, ROUTE_PATHS } from '../Constant';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../context/AuthContext';
+import { userAPI } from '../api/user.api';
+import type { IUser } from '../Types';
+import { authAPI } from '../api/auth.api';
 
 function LogIn() {
   const navigate = useNavigate();
@@ -12,14 +14,9 @@ function LogIn() {
 
   const fetchUser = async (accessToken: string) => {
     try {
-      const response = await axios.get(API_ENDPOINTS.USER, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-      console.log('MSW Response:', response.data);
+      const { name, memo } = await userAPI.getUser(accessToken);
 
-      return { name: response.data?.name, memo: response.data?.memo };
+      return { name, memo };
     } catch (err) {
       console.error('Error fetching user:', err);
       setError('Failed to fetch user data.');
@@ -31,23 +28,21 @@ function LogIn() {
 
     try {
       event.preventDefault();
-      const response = await axios.post(API_ENDPOINTS.SIGN_IN, {
+      const data = await authAPI.signIn({
         email: 'test@test.com',
         password: 'password123'
       });
 
-      localStorage.setItem(LOCALSTORAGE_KEYS.ACCESS_TOKEN, response.data.accessToken);
-      localStorage.setItem(LOCALSTORAGE_KEYS.REFRESH_TOKEN, response.data.refreshToken);
+      localStorage.setItem(LOCALSTORAGE_KEYS.ACCESS_TOKEN, data.accessToken);
+      localStorage.setItem(LOCALSTORAGE_KEYS.REFRESH_TOKEN, data.refreshToken);
 
-      const userInfo = await fetchUser(response.data.accessToken);
-
+      const userInfo = (await fetchUser(data.accessToken)) as IUser;
       login(
-        { name: userInfo?.name, memo: userInfo?.memo },
-        { accessToken: response.data.accessToken, refreshToken: response.data.refreshToken }
+        { name: userInfo.name, memo: userInfo.memo },
+        { accessToken: data.accessToken, refreshToken: data.refreshToken }
       );
-
       navigate(ROUTE_PATHS.DASHBOARD);
-      console.log('Sign-in successful:', response.data);
+      console.log('Sign-in successful:', data);
     } catch (error) {
       console.error('Sign-in error:', error);
       setError('Sign-in failed.');
