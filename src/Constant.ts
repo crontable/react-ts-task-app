@@ -11,8 +11,7 @@ export const API_ENDPOINTS = {
 export const ROUTE_PATHS = {
   DASHBOARD: '/',
   LOGIN: '/sign-in',
-  TASK: '/task',
-  PROFILE: '/profile'
+  TASK: '/task'
 };
 
 export const LOCALSTORAGE_KEYS = {
