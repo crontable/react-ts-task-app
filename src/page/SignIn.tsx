@@ -1,80 +1,46 @@
-import { useTheme } from '@emotion/react';
 import useSignIn from './hooks/useSignIn';
+import * as S from './SignIn.styles';
 
 function SignIn() {
-  const theme = useTheme();
   const { register, handleSubmit, errors, isValid, apiError, validationRules } = useSignIn();
 
   return (
-    <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
-      <h2>로그인</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+    <S.Container>
+      <S.Title>로그인</S.Title>
+      <S.Form onSubmit={handleSubmit}>
+        <S.FormField>
+          <S.Label>
             이메일
-            <input
+            <S.Input
               type="email"
               placeholder="email@example.com"
+              hasError={!!errors.email}
               {...register('email', validationRules.email)}
-              style={{
-                display: 'block',
-                width: '100%',
-                padding: '8px',
-                marginTop: '4px',
-                border: errors.email ? '1px solid red' : '1px solid #ccc',
-                borderRadius: '4px'
-              }}
             />
-          </label>
-          {errors.email && <p style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>{errors.email.message}</p>}
-        </div>
+          </S.Label>
+          {errors.email && <S.ErrorMessage>{errors.email.message}</S.ErrorMessage>}
+        </S.FormField>
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+        <S.FormField>
+          <S.Label>
             비밀번호
-            <input
+            <S.Input
               type="password"
               placeholder="password"
+              hasError={!!errors.password}
               {...register('password', validationRules.password)}
-              style={{
-                display: 'block',
-                width: '100%',
-                padding: '8px',
-                marginTop: '4px',
-                border: errors.password ? '1px solid red' : '1px solid #ccc',
-                borderRadius: '4px'
-              }}
             />
-          </label>
-          {errors.password && (
-            <p style={{ color: 'red', fontSize: '12px', marginTop: '4px' }}>{errors.password.message}</p>
-          )}
-        </div>
+          </S.Label>
+          {errors.password && <S.ErrorMessage>{errors.password.message}</S.ErrorMessage>}
+        </S.FormField>
 
-        <button
-          type="submit"
-          disabled={!isValid}
-          style={{
-            width: '100%',
-            padding: '12px',
-            backgroundColor: isValid ? theme.colors.primary : theme.colors.disabled,
-            color: isValid ? 'white' : '#666',
-            border: 'none',
-            borderRadius: '4px',
-            fontSize: '16px',
-            fontWeight: 'bold',
-            cursor: isValid ? 'pointer' : 'not-allowed',
-            transition: 'background-color 0.2s'
-          }}
-        >
+        <S.SubmitButton type="submit" disabled={!isValid} isValid={isValid}>
           로그인
-        </button>
-      </form>
+        </S.SubmitButton>
+      </S.Form>
 
-      {apiError && (
-        <p style={{ color: 'red', marginTop: '16px', textAlign: 'center', fontWeight: 'bold' }}>{apiError}</p>
-      )}
-    </div>
+      {apiError && <S.ApiErrorMessage>{apiError}</S.ApiErrorMessage>}
+    </S.Container>
   );
 }
 
