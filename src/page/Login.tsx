@@ -12,17 +12,6 @@ function LogIn() {
 
   const [error, setError] = useState('');
 
-  const fetchUser = async (accessToken: string) => {
-    try {
-      const { name, memo } = await userAPI.getUser(accessToken);
-
-      return { name, memo };
-    } catch (err) {
-      console.error('Error fetching user:', err);
-      setError('Failed to fetch user data.');
-    }
-  };
-
   const requestSignIn = async (event: React.FormEvent) => {
     setError('');
 
@@ -36,11 +25,9 @@ function LogIn() {
       localStorage.setItem(LOCALSTORAGE_KEYS.ACCESS_TOKEN, data.accessToken);
       localStorage.setItem(LOCALSTORAGE_KEYS.REFRESH_TOKEN, data.refreshToken);
 
-      const userInfo = (await fetchUser(data.accessToken)) as IUser;
-      login(
-        { name: userInfo.name, memo: userInfo.memo },
-        { accessToken: data.accessToken, refreshToken: data.refreshToken }
-      );
+      const userInfo = (await userAPI.getUser()) as IUser;
+      login(userInfo, { accessToken: data.accessToken, refreshToken: data.refreshToken });
+
       navigate(ROUTE_PATHS.DASHBOARD);
       console.log('Sign-in successful:', data);
     } catch (error) {
