@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: '/login',
+    path: '/sign-in',
     Component: LogIn
   }
 ]);

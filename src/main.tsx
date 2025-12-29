@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router';
 import router from './router';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from './theme';
+import { AuthProvider } from './context/AuthContext';
 
 async function enableMocking() {
   const { worker } = await import('./mocks/browser');
@@ -18,7 +19,9 @@ enableMocking().then(() => {
   root.render(
     <StrictMode>
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </ThemeProvider>
     </StrictMode>
   );
