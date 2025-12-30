@@ -18,3 +18,13 @@ export interface IDashboardResponse {
   numOfRestTask: number;
   numOfDoneTask: number;
 }
+
+export interface ITask {
+  title: string;
+  memo: string;
+  status: 'TODO' | 'DONE';
+  registerDateTime: string;
+}
+
+export type ITaskResponse = Omit<ITask, 'registerDateTime'>[];
+export type ITaskDetailResponse = Omit<ITask, 'status'>;
