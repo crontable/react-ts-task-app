@@ -7,7 +7,7 @@ export const HeaderContainer = styled.header`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 10px 0;
+  padding: 20px 0;
   border-bottom: 1px solid ${theme.colors.disabled};
   background-color: ${theme.colors.background};
   position: fixed;

@@ -12,28 +12,36 @@ const TASK_SAMPLE: ITask[] = Array.from({ length: 20 }, (_, index) => ({
 
 const isValidTaskId = (id?: string): boolean => !id || Number(id) < 1 || Number(id) > TASK_SAMPLE.length;
 
+const createNotFoundResponse = () => HttpResponse.json({ errorMessage: 'Task not found' }, { status: 404 });
+
 export const taskHandlers = [
-  // 로그인: JWT 토큰 발급
   http.get(`${API_BASE_URL}${API_ENDPOINTS.TASK}`, async () => {
     return HttpResponse.json(TASK_SAMPLE.map(({ id, title, memo, status }) => ({ id, title, memo, status })));
   }),
 
   http.get(`${API_BASE_URL}${API_ENDPOINTS.TASK}/:id`, async (request) => {
-    const id = request.params?.id;
+    const id = request.params?.id as string;
 
-    if (typeof id === 'string' && isValidTaskId(id)) {
-      return HttpResponse.json({ errorMessage: 'Task not found' }, { status: 404 });
+    if (isValidTaskId(id)) {
+      return createNotFoundResponse();
     }
 
-    return HttpResponse.json({ message: 'Success' });
+    const task = TASK_SAMPLE.find((task) => task.id === id);
+
+    return HttpResponse.json(task);
   }),
 
   http.delete(`${API_BASE_URL}${API_ENDPOINTS.TASK}/:id`, async (request) => {
-    const id = request.params?.id;
+    const id = request.params?.id as string;
 
-    if (typeof id === 'string' && isValidTaskId(id)) {
-      return HttpResponse.json({ errorMessage: 'Task not found' }, { status: 404 });
+    if (isValidTaskId(id)) {
+      return createNotFoundResponse();
     }
+
+    TASK_SAMPLE.splice(
+      TASK_SAMPLE.findIndex((task) => task.id === id),
+      1
+    );
 
     return HttpResponse.json({ success: true }, { status: 200 });
   })

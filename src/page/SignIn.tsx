@@ -1,4 +1,4 @@
-import { Modal } from '../components/Modal';
+import { Modal } from '../components/base/Modal';
 import useSignIn from './hooks/useSignIn';
 import * as S from './SignIn.styles';
 

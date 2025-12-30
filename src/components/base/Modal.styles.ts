@@ -17,5 +17,4 @@ export const Content = styled(Dialog.Content)`
   border-radius: 8px;
   min-width: 300px;
   max-width: 500px;
-  color: #333;
 `;
