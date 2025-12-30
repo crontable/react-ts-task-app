@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/incompatible-library */
-import { useForm } from 'react-hook-form';
 import { Modal } from './base/Modal';
+import useTaskDelete from './hooks/useTaskDelete';
 import * as S from './TaskDeleteModal.styles';
 
 interface ITaskDeleteModalProps {
@@ -10,36 +9,12 @@ interface ITaskDeleteModalProps {
   onConfirm: () => void;
 }
 
-interface IFormData {
-  taskIdInput: string;
-}
-
 function TaskDeleteModal({ open, onOpenChange, taskId, onConfirm }: ITaskDeleteModalProps) {
-  const { register, watch, reset } = useForm<IFormData>({
-    mode: 'onChange',
-    defaultValues: {
-      taskIdInput: ''
-    }
-  });
-
-  const taskIdInput = watch('taskIdInput');
-  const isMatched = taskIdInput === taskId;
-
-  const handleConfirm = () => {
-    onConfirm();
-
-    if (isMatched) {
-      onConfirm();
-      reset();
-    }
-  };
-
-  const handleClose = (open: boolean) => {
-    if (!open) {
-      reset();
-    }
-    onOpenChange(open);
-  };
+  const {
+    form: { register },
+    state: { isMatched },
+    action: { handleConfirm, handleClose }
+  } = useTaskDelete({ onOpenChange, onConfirm, taskId });
 
   return (
     <Modal open={open} onOpenChange={handleClose}>
