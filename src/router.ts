@@ -4,6 +4,7 @@ import Dashboard from './page/Dashboard';
 import SignIn from './page/SignIn';
 import App from './App';
 import Task from './page/Task';
+import TaskDetail from './page/TaskDetail';
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: Task
+      },
+      {
+        path: ':id',
+        Component: TaskDetail
       }
     ]
   }

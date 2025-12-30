@@ -3,6 +3,7 @@ import { API_BASE_URL, API_ENDPOINTS } from '../../Constant';
 import type { ITask } from '../../Types';
 
 const TASK_SAMPLE: ITask[] = Array.from({ length: 20 }, (_, index) => ({
+  id: index + 1 + '',
   title: `Sample Task Title ${index + 1}`,
   memo: `This is a sample memo for task number ${index + 1}.`,
   status: index % 2 === 0 ? 'TODO' : 'DONE',
@@ -14,7 +15,7 @@ const isValidTaskId = (id?: string): boolean => !id || Number(id) < 1 || Number(
 export const taskHandlers = [
   // 로그인: JWT 토큰 발급
   http.get(`${API_BASE_URL}${API_ENDPOINTS.TASK}`, async () => {
-    return HttpResponse.json(TASK_SAMPLE.map(({ title, memo, status }) => ({ title, memo, status })));
+    return HttpResponse.json(TASK_SAMPLE.map(({ id, title, memo, status }) => ({ id, title, memo, status })));
   }),
 
   http.get(`${API_BASE_URL}${API_ENDPOINTS.TASK}/:id`, async (request) => {

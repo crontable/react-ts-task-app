@@ -20,11 +20,12 @@ export interface IDashboardResponse {
 }
 
 export interface ITask {
+  id: string;
   title: string;
   memo: string;
   status: 'TODO' | 'DONE';
   registerDateTime: string;
 }
 
-export type ITaskResponse = Omit<ITask, 'registerDateTime'>[];
+export type ITaskResponse = Omit<ITask, 'registerDateTime'>;
 export type ITaskDetailResponse = Omit<ITask, 'status'>;
