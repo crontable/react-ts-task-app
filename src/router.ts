@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router';
 import Dashboard from './page/Dashboard';
 import SignIn from './page/SignIn';
 import App from './App';
+import Task from './page/Task';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,16 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: SignIn
+      }
+    ]
+  },
+  {
+    path: '/task',
+    Component: App,
+    children: [
+      {
+        index: true,
+        Component: Task
       }
     ]
   }
