@@ -1,38 +1,38 @@
-import { useEffect, useState } from 'react';
-import { taskAPI } from '../api/task.api';
-import type { ITaskResponse } from '../Types';
 import { TaskCard } from '../components/TaskCard';
-import { useNavigate } from 'react-router';
-import { API_ENDPOINTS } from '../Constant';
+import useTask from './hooks/useTask';
 import * as S from './Task.styles';
 
 function Task() {
-  const navigate = useNavigate();
-  const [tasks, setTasks] = useState<ITaskResponse[]>([]);
+  const {
+    state: { tasks, error },
+    action: { goToDashboard, goToTaskDetail }
+  } = useTask();
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const tasks = await taskAPI.fetchTasks();
-        setTasks(tasks);
-      } catch (error) {
-        console.error('Failed to fetch tasks:', error);
-      }
-    };
-
-    fetchTasks();
-  }, []);
+  if (error) {
+    return (
+      <S.Container>
+        <S.ErrorMessage>{error}</S.ErrorMessage>
+        <S.Actions>
+          <S.Button onClick={goToDashboard}>대시보드로 돌아가기</S.Button>
+        </S.Actions>
+      </S.Container>
+    );
+  }
 
   return (
     <S.Container>
       <S.Title>할 일 목록</S.Title>
-      <S.TaskList>
-        {tasks.map((task) => (
-          <S.TaskItem key={task.id}>
-            <TaskCard task={task} onClick={() => navigate(`${API_ENDPOINTS.TASK}/${task.id}`)} />
-          </S.TaskItem>
-        ))}
-      </S.TaskList>
+      {tasks.length === 0 ? (
+        <S.EmptyMessage>등록된 할 일이 없습니다.</S.EmptyMessage>
+      ) : (
+        <S.TaskList>
+          {tasks.map((task) => (
+            <S.TaskItem key={task.id}>
+              <TaskCard task={task} onClick={() => goToTaskDetail(task.id)} />
+            </S.TaskItem>
+          ))}
+        </S.TaskList>
+      )}
     </S.Container>
   );
 }
