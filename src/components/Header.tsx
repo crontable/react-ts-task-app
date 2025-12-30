@@ -33,6 +33,11 @@ function Header() {
 
   const goTo = (path: string) => () => navigate(path);
 
+  const handleLogout = () => {
+    logout();
+    navigate(ROUTE_PATHS.LOGIN);
+  };
+
   return (
     <S.HeaderContainer>
       <S.Logo onClick={goTo(ROUTE_PATHS.DASHBOARD)} style={{ cursor: 'pointer' }}>
@@ -61,7 +66,7 @@ function Header() {
               </S.NavLink>
             </li>
             <li>
-              <S.NavLink onClick={logout}>
+              <S.NavLink onClick={handleLogout}>
                 <IoLogOut />
                 <span>로그아웃</span>
               </S.NavLink>
