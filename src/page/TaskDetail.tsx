@@ -1,55 +1,26 @@
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import type { ITaskDetailResponse } from '../Types';
-import { taskAPI } from '../api/task.api';
-import { AxiosError } from 'axios';
 import * as S from './TaskDetail.styles';
 import { ROUTE_PATHS } from '../Constant';
 import TaskDeleteModal from '../components/TaskDeleteModal';
+import useTaskDetail from './hooks/useTaskDetail';
+import { useTaskDelete } from './hooks/useTaskDelete';
 
 function TaskDetail() {
   const { id } = useParams<{ id: string }>();
+
   const navigate = useNavigate();
-  const [task, setTask] = useState<ITaskDetailResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-
-  useEffect(() => {
-    const fetchTaskDetail = async (taskId: string) => {
-      try {
-        const taskDetail = await taskAPI.fetchTaskDetail(taskId);
-        setTask(taskDetail);
-
-        console.log('Fetching details for task ID:', taskId);
-      } catch (error) {
-        if (error instanceof AxiosError && error.status === 404) {
-          setError('존재하지 않는 작업입니다.');
-        }
-      }
-    };
-
-    fetchTaskDetail(id!);
-  }, [id]);
-
   const goBack = () => {
     navigate(ROUTE_PATHS.TASK);
   };
 
-  const openDeleteModal = () => {
-    setDeleteModalOpen(true);
-    console.log('Delete task:', id);
-  };
+  const {
+    state: { task, error }
+  } = useTaskDetail({ id: id! });
 
-  const requestDeleteTask = async () => {
-    try {
-      await taskAPI.deleteTask(id!);
-
-      navigate(ROUTE_PATHS.TASK);
-    } catch (error) {
-      console.error('Failed to delete task:', error);
-    }
-  };
+  const {
+    state: { deleteModalOpen, setDeleteModalOpen },
+    action: { openDeleteModal, requestDeleteTask }
+  } = useTaskDelete({ id: id! });
 
   if (error) {
     return (
@@ -65,7 +36,7 @@ function TaskDetail() {
   if (!task) {
     return (
       <S.Container>
-        <S.LoadingMessage>로딩 중...</S.LoadingMessage>
+        <S.LoadingMessage>불러오는 중...</S.LoadingMessage>
       </S.Container>
     );
   }
