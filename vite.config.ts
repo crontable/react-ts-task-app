@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
+  base: '/react-ts-task-app/',
   plugins: [react()],
   esbuild: {
     drop: ['console', 'debugger']
