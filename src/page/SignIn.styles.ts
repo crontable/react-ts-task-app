@@ -6,7 +6,13 @@ export const Container = styled.div`
   margin: 0 auto;
 `;
 
-export const Title = styled.h2``;
+export const Title = styled.h2`
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 32px;
+  color: ${(props) => props.theme.colors.primary};
+`;
 
 export const Form = styled.form``;
 
