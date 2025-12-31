@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { taskAPI } from '../../api/task.api';
 import { useNavigate } from 'react-router';
 import { ROUTE_PATHS } from '../../Constant';
+import { handleAxiosError } from '../../utils/errorHandler';
 
 export function useTaskDelete({ id }: { id: string }) {
   const navigate = useNavigate();
@@ -18,7 +19,12 @@ export function useTaskDelete({ id }: { id: string }) {
 
       navigate(ROUTE_PATHS.TASK);
     } catch (error) {
-      console.error('Failed to delete task:', error);
+      handleAxiosError(error, {
+        setError: () => {
+          navigate(ROUTE_PATHS.TASK);
+        },
+        onUnauthorized: () => navigate(ROUTE_PATHS.LOGIN)
+      });
     }
   };
 
