@@ -26,6 +26,5 @@ export interface ITask {
   status: 'TODO' | 'DONE';
   registerDateTime: string;
 }
-
 export type ITaskResponse = Omit<ITask, 'registerDateTime'>;
 export type ITaskDetailResponse = Omit<ITask, 'status'>;

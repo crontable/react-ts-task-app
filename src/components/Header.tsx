@@ -60,7 +60,7 @@ function Header() {
         {user ? (
           <>
             <li>
-              <S.NavLink onClick={() => {}}>
+              <S.NavLink onClick={goTo(ROUTE_PATHS.PROFILE)}>
                 <IoPersonCircle />
                 <span>{user.name}</span>
               </S.NavLink>

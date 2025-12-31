@@ -5,6 +5,7 @@ import SignIn from './page/SignIn';
 import App from './App';
 import Task from './page/Task';
 import TaskDetail from './page/TaskDetail';
+import Profile from './page/Profile';
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,16 @@ const router = createBrowserRouter([
       {
         path: ':id',
         Component: TaskDetail
+      }
+    ]
+  },
+  {
+    path: '/profile',
+    Component: App,
+    children: [
+      {
+        index: true,
+        Component: Profile
       }
     ]
   }
