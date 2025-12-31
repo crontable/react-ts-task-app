@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { API_BASE_URL, API_ENDPOINTS } from '../../Constant';
 import { mockUsers } from '../database';
-import { createTokens } from '../utils/auth';
+import { createTokens, refreshTokens } from '../utils/auth';
 
 export const authHandlers = [
   // 로그인: JWT 토큰 발급
@@ -21,5 +21,21 @@ export const authHandlers = [
     console.log('[MSW] JWT tokens generated for user:', user.name);
 
     return HttpResponse.json(tokens);
+  }),
+
+  // 리프레시: JWT 토큰 재발급
+  http.post(`${API_BASE_URL}${API_ENDPOINTS.REFRESH}`, async ({ request }) => {
+    const { refreshToken } = (await request.json()) as { refreshToken: string };
+    console.log('[MSW] Token refresh request');
+
+    try {
+      const tokens = await refreshTokens(refreshToken);
+      console.log('[MSW] New tokens issued via refresh');
+
+      return HttpResponse.json(tokens);
+    } catch {
+      console.log('[MSW] Invalid refresh token');
+      return HttpResponse.json({ errorMessage: 'Invalid refresh token' }, { status: 401 });
+    }
   })
 ];

@@ -39,3 +39,10 @@ export const createTokens = async (userId: string) => {
 
   return { accessToken, refreshToken };
 };
+
+export const refreshTokens = async (refreshToken: string) => {
+  const { payload } = await jwtVerify(refreshToken, secret);
+  const userId = (payload as { id: string }).id;
+
+  return createTokens(userId);
+};

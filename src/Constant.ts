@@ -4,6 +4,7 @@ export const API_BASE_URL = '/api';
 export const API_ENDPOINTS = {
   DASHBOARD: '/dashboard',
   SIGN_IN: '/sign-in',
+  REFRESH: '/refresh',
   TASK: '/task',
   USER: '/user'
 };
