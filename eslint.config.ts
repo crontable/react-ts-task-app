@@ -39,6 +39,7 @@ export default defineConfig([
       'react/react-in-jsx-scope': 'off'
     },
     plugins: {
+      // @ts-expect-error - eslint-plugin-react-hooks
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh
     }
