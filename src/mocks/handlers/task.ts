@@ -1,16 +1,8 @@
 import { http, HttpResponse } from 'msw';
 import type { HttpResponseResolver, PathParams } from 'msw';
 import { API_BASE_URL, API_ENDPOINTS, TASK_LIST_PAGE_SIZE } from '../../Constant';
-import type { ITask } from '../../Types';
 import { verifyToken } from '../utils/auth';
-
-const TASK_SAMPLE: ITask[] = Array.from({ length: 1000 }, (_, index) => ({
-  id: index + 1 + '',
-  title: `Sample Task Title ${index + 1}`,
-  memo: `This is a sample memo for task number ${index + 1}.`,
-  status: index % 2 === 0 ? 'TODO' : 'DONE',
-  registerDateTime: new Date().toISOString()
-}));
+import { TASK_SAMPLE } from '../database';
 
 const isValidTaskId = (id?: string): boolean => !id || Number(id) < 1 || Number(id) > TASK_SAMPLE.length;
 

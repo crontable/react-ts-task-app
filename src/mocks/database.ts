@@ -1,4 +1,4 @@
-// Mock Database: 실제 DB를 시뮬레이션하는 데이터
+import type { ITask } from '../Types';
 
 export interface User {
   id: string;
@@ -32,6 +32,10 @@ export const mockUsers: User[] = [
   }
 ];
 
-// TODO: 나중에 Task 데이터도 여기에 추가
-// export interface Task { ... }
-// export const mockTasks: Task[] = [ ... ];
+export const TASK_SAMPLE: ITask[] = Array.from({ length: 1000 }, (_, index) => ({
+  id: index + 1 + '',
+  title: `Sample Task Title ${index + 1}`,
+  memo: `This is a sample memo for task number ${index + 1}.`,
+  status: index % 2 === 0 ? 'TODO' : 'DONE',
+  registerDateTime: new Date().toISOString()
+}));
