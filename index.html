@@ -8,6 +8,14 @@
     <style>
       @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
     </style>
+    <script>
+      (function () {
+        var redirect = new URLSearchParams(window.location.search).get('p');
+        if (redirect) {
+          window.history.replaceState(null, '', '/react-ts-task-app/' + redirect);
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
