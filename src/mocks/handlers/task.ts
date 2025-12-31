@@ -1,10 +1,10 @@
 import { http, HttpResponse } from 'msw';
 import type { HttpResponseResolver, PathParams } from 'msw';
-import { API_BASE_URL, API_ENDPOINTS } from '../../Constant';
+import { API_BASE_URL, API_ENDPOINTS, TASK_LIST_PAGE_SIZE } from '../../Constant';
 import type { ITask } from '../../Types';
 import { verifyToken } from '../utils/auth';
 
-const TASK_SAMPLE: ITask[] = Array.from({ length: 20 }, (_, index) => ({
+const TASK_SAMPLE: ITask[] = Array.from({ length: 1000 }, (_, index) => ({
   id: index + 1 + '',
   title: `Sample Task Title ${index + 1}`,
   memo: `This is a sample memo for task number ${index + 1}.`,
@@ -31,8 +31,22 @@ const withAuth =
 export const taskHandlers = [
   http.get(
     `${API_BASE_URL}${API_ENDPOINTS.TASK}`,
-    withAuth(async () => {
-      return HttpResponse.json(TASK_SAMPLE.map(({ id, title, memo, status }) => ({ id, title, memo, status })));
+    withAuth(async ({ request }) => {
+      const url = new URL(request.url);
+      const page = Number(url.searchParams.get('page')) || 1;
+      const limit = TASK_LIST_PAGE_SIZE;
+
+      const startIndex = (page - 1) * limit;
+      const endIndex = startIndex + limit;
+
+      const requestedTasks = TASK_SAMPLE.slice(startIndex, endIndex).map(({ id, title, memo, status }) => ({
+        id,
+        title,
+        memo,
+        status
+      }));
+
+      return HttpResponse.json(requestedTasks);
     })
   ),
 

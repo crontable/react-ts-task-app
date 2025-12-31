@@ -1,3 +1,4 @@
+import { Virtuoso } from 'react-virtuoso';
 import { TaskCard } from '../components/TaskCard';
 import useTask from './hooks/useTask';
 import * as S from './Task.styles';
@@ -5,7 +6,7 @@ import * as S from './Task.styles';
 function Task() {
   const {
     state: { tasks, error },
-    action: { goToDashboard, goToTaskDetail }
+    action: { goToDashboard, goToTaskDetail, loadMore }
   } = useTask();
 
   if (error) {
@@ -25,13 +26,12 @@ function Task() {
       {tasks.length === 0 ? (
         <S.EmptyMessage>등록된 할 일이 없습니다.</S.EmptyMessage>
       ) : (
-        <S.TaskList>
-          {tasks.map((task) => (
-            <S.TaskItem key={task.id}>
-              <TaskCard task={task} onClick={() => goToTaskDetail(task.id)} />
-            </S.TaskItem>
-          ))}
-        </S.TaskList>
+        <Virtuoso
+          style={{ height: 'calc(100vh - 200px)' }}
+          data={tasks}
+          endReached={loadMore}
+          itemContent={(_index, task) => <TaskCard task={task} onClick={() => goToTaskDetail(task.id)} />}
+        />
       )}
     </S.Container>
   );

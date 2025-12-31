@@ -19,3 +19,5 @@ export const LOCALSTORAGE_KEYS = {
   ACCESS_TOKEN: 'accessToken',
   REFRESH_TOKEN: 'refreshToken'
 };
+
+export const TASK_LIST_PAGE_SIZE = 20;
